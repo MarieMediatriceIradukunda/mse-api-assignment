@@ -4,7 +4,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+.venv/
 # Distribution / packaging
 .Python
 env/
@@ -65,7 +65,7 @@ target/
 
 # Pycharm
 .idea
-
+/data
 # VS Code
 .vscode/
 
