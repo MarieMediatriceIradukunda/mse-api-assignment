@@ -1,3 +1,230 @@
+# Malawi Stock Exchange (MSE) Data API
+
+Version: 1.0
+
+Framework: FastAPI
+
+Database: PostgreSQL
+
+Language: Python 3.10+
+
+## Overview
+
+The MSE Data API provides programmatic access to historical and real-time market information from the Malawi Stock Exchange.
+
+It allows users to retrieve:
+
+. Company details
+
+. Price history
+
+. Trading summaries for all listed companies
+
+. Market statistics
+
+## Base URL
+
+Local: http: https://localhost:8000
+
+Public (Ngrok): https://erosional-glennie-premeditatingly.ngrok-free.dev
+
+## API Documentation
+
+**Swagger UI:** http://localhost:8000/docs
+
+**ReDoc UI:** http://localhost:8000/redoc
+
+
+
+# Getting Started
+## 1. Clone the Repository
+git clone https://github.com/MarieMediatriceIradukunda/mse-api-assignment.git
+
+cd mse-api-assignment
+
+## 2. Create Virtual Environment
+
+python3 -m venv venv
+
+source venv/bin/activate  
+
+## 3. Install Dependencies
+
+pip install -r requirements.txt
+
+## 4. Run the API Locally
+
+uvicorn api:app --reload
+
+
+## 5. (Optional) Run Using Ngrok
+
+ngrok http 8000
+
+## Environment Variables
+
+Create a .env file in the project root with your PostgreSQL database credentials:
+
+#### PostgreSQL configuration
+
+PGHOST=your_database_host
+
+PGPORT=5432
+
+PGDATABASE=your_database_name
+
+PGUSER=your_database_user
+
+PGPASSWORD=your_database_password
+
+## Endpoints Overview
+
+1. `/companies`
+
+**Method:** `GET`  
+**Description:** Retrieve all listed companies. You can optionally filter by sector.
+
+**Example Response:**
+
+```json
+[
+  {
+    "ticker": "AIRTEL",
+    "name": "AIRTEL MALAWI PLC",
+    "sector": "Telecommunication",
+    "date_listed": "2020-02-24"
+  },
+  {
+    "ticker": "TNM",
+    "name": "TELEKOM NETWORKS MALAWI PLC",
+    "sector": "Telecommunication",
+    "date_listed": "2008-11-03"
+  }
+]
+```
+2. `/companies/{ticker}`
+
+**Method:** `GET`  
+**Description:** Retrieve detailed information for a specific company, including total number of recorded price entries.
+
+**Example Response:**
+
+```json
+{
+  "company": {
+    "ticker": "AIRTEL",
+    "name": "AIRTEL MALAWI PLC",
+    "sector": "Telecommunication",
+    "date_listed": "2020-02-24"
+  },
+  "total_records": 1210
+}
+```
+
+3. `/prices/daily`
+
+**Method:** `GET`  
+**Description:** Retrieve daily price data for a given company ticker, optionally filtered by date range.
+
+**Example Response:**
+
+```json
+{
+  "ticker": "AIRTEL",
+  "count": 2,
+  "data": [
+    {
+      "trade_date": "2024-02-02",
+      "open": 12.69,
+      "high": 0,
+      "low": 0,
+      "close": 55.1,
+      "volume": 0
+    },
+    {
+      "trade_date": "2024-02-01",
+      "open": 12.69,
+      "high": 0,
+      "low": 0,
+      "close": 55.1,
+      "volume": 0
+    }
+  ]
+}
+```
+
+4. `/prices/range`
+
+**Method:** `GET`  
+**Description:** Retrieve all prices for a given year (and optional month), plus summary statistics for that period.
+
+**Example Response:**
+
+```json
+{
+  "ticker": "AIRTEL",
+  "summary": {
+    "period_high": 45,
+    "period_low": 0,
+    "total_volume": 14971601
+  },
+  "data": [
+    {
+      "trade_date": "2024-09-30",
+      "open": 12.69,
+      "high": 45,
+      "low": 45,
+      "close": 45,
+      "volume": 3932
+    },
+    {
+      "trade_date": "2024-09-27",
+      "open": 12.69,
+      "high": 44.97,
+      "low": 44.96,
+      "close": 44.97,
+      "volume": 162625
+    },.......]
+```
+
+
+5. `/prices/latest`
+
+**Method:** `GET`  
+**Description:** Retrieve the most recent closing price for one or all companies, including daily change and percentage change.
+
+**Example Response:**
+
+```json
+{
+  "count": 1,
+  "data": [
+    {
+      "ticker": "TNM",
+      "latest_date": "2025-09-19",
+      "latest_price": 31.35,
+      "previous_price": 34.84,
+      "change": -3.490000000000002,
+      "percentage_change": "-10.02%"
+    }
+  ]
+}
+```
+
+
+## Technologies Used
+
+**FastAPI:** For building the APIs
+
+**PostgreSQL:** For storing data
+
+**SQLAlchemy:** For database interactions
+
+**Pandas :** Data cleaning and analysis
+
+**Ngrok:** For public API exposure during development
+
+
 # Malawi Stock Exchange API Assignment
 
 ## Overview
